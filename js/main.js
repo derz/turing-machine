@@ -1,6 +1,7 @@
 const TuringMachine = require('./TuringMachine');
+const args = process.argv.slice(2);
 
-const tm = function(calc, steps) {
+(function(calc, steps) {
 	calc = calc.split('*');
 	num = new Array(parseInt(calc[0], 10) + 1).join('0') + '1' + new Array(parseInt(calc[1], 10) + 1).join('0');
 
@@ -16,8 +17,4 @@ const tm = function(calc, steps) {
 		);
 	});
 
-};
-
-var args = process.argv.slice(2);
-
-console.log(args[0], args[1]);
+}(args[0], args[1]));
