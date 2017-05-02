@@ -25,7 +25,7 @@ module.exports = class TuringMachine {
 	}
 
 	runTrough(complete) {
-		while (this.step()) {
+		while (this.step(true)) {
 		}
 
 		if (complete) complete.call();
@@ -64,9 +64,6 @@ module.exports = class TuringMachine {
 
 	printStep() {
 		console.log('\x1Bc');
-
-		// var longest = this.tapes.reduce(function (a, b) { return a.getTape().length > b.getTape().length ? a : b; });
-		// console.log('longest: ' + longest.getTape().length);
 
 		console.log('Current State: ' + this.currentState);
 		console.log('Steps past: ' + this.stepsCount);
