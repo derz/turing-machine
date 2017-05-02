@@ -7,6 +7,8 @@ module.exports = class TuringMachine {
 		this.states = {};
 		this.tapes = [];
 
+		this.stepsCount = 0;
+
 		for (var i = 0; i < arguments.length; i++) {
 			this.tapes.push(new Tape(arguments[i]));
 		}
@@ -33,7 +35,7 @@ module.exports = class TuringMachine {
 		if (this.step(true)) {
 			setTimeout(function() {
 				this.stepTrough(complete);
-			}.bind(this), 0);
+			}.bind(this), 200);
 		} else {
 			if (complete) complete.call();
 		}
@@ -45,6 +47,8 @@ module.exports = class TuringMachine {
 		}
 
 		const transitionRule = this.currentState.getCorrectRule(this.tapes);
+
+		this.stepsCount += 1;
 
 		if (transitionRule) {
 			transitionRule.moveTape(this.tapes);
@@ -63,6 +67,11 @@ module.exports = class TuringMachine {
 
 		// var longest = this.tapes.reduce(function (a, b) { return a.getTape().length > b.getTape().length ? a : b; });
 		// console.log('longest: ' + longest.getTape().length);
+
+		console.log('Current State: ' + this.currentState);
+		console.log('Steps past: ' + this.stepsCount);
+
+		console.log('\n');
 
 		for (var i = 0; i < this.tapes.length; i++) {
 			this.tapes[i].printTape();

@@ -4,16 +4,17 @@ module.exports = (function() {
 	const COLOR_RESET = "\x1b[0m";
 	const COLOR_BG = "\x1b[46m";
 
-	const MIN_LENGTH = 10;
+	const MIN_LENGTH = 30;
 
 	return class Tape {
 		constructor(tapeConfig) {
-			this.tape = tapeConfig.split('');
-			this.tape = this.tape.concat(new Array(Math.max(0, MIN_LENGTH - this.tape.length)).fill(EMPTY_CELL));
+			this.tape = tapeConfig.split('') || [];
 
-			this.position = 0;
+			const fillLenght = Math.round(Math.max(0, MIN_LENGTH - this.tape.length) * 0.5);
+			this.tape = (new Array(fillLenght).fill(EMPTY_CELL)).concat(this.tape.concat(new Array(fillLenght).fill(EMPTY_CELL)));
+
+			this.position = fillLenght;
 		}
-
 
 		moveRight() {
 			if (this.position >= this.tape.length) {
