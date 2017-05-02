@@ -1,7 +1,10 @@
 const TuringMachine = require('./TuringMachine');
 
-(function(num) {
-	const t = new TuringMachine(num, "", "");
+(function(calc) {
+	calc = calc.split('*');
+	num = new Array(parseInt(calc[0], 10)).fill('0').join('') + '1' + new Array(parseInt(calc[1], 10)).fill('0').join('');
+
+	const t = new TuringMachine(num, '', '');
 
 	t.run(true, function() {
 		const tapes = t.getTapes();
@@ -12,4 +15,5 @@ const TuringMachine = require('./TuringMachine');
 			'\n\n'
 		);
 	});
-}('00000100'));
+
+}('3*2'));
