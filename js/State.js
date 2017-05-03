@@ -25,6 +25,10 @@ module.exports = class State {
 		return this.rules;
 	}
 
+	addRule(rule) {
+		this.rules.push(rule);
+	}
+
 	isAccepting() {
 		return this.accepting;
 	}

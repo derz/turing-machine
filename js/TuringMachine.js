@@ -3,17 +3,19 @@ const State = require('./State');
 const Rule = require('./Rule');
 
 module.exports = class TuringMachine {
-	constructor() {
+	constructor(options) {
 		this.states = {};
 		this.tapes = [];
 
 		this.stepsCount = 0;
 
-		for (var i = 0; i < arguments.length; i++) {
-			this.tapes.push(new Tape(arguments[i]));
+		const tapes = options.tapes;
+
+		for (var i = 0; i < tapes.length; i++) {
+			this.tapes.push(new Tape(tapes[i]));
 		}
 
-		this.initializeConfiguration();
+		this.initializeConfiguration(options.states);
 	}
 
 	run(log, complete) {
@@ -75,31 +77,21 @@ module.exports = class TuringMachine {
 		}
 	}
 
-	initializeConfiguration() {
-		const q0 = new State('q0', false);
-		q0.getRules().push(new Rule('0__,_0_,RRS,q0'));
-		q0.getRules().push(new Rule('1__,___,RSS,q1'));
-		this.states['q0'] = q0;
+	initializeConfiguration(states) {
 
-		const q1 = new State('q1', false);
-		q1.getRules().push(new Rule('0__,0__,SLS,q2'));
-		q1.getRules().push(new Rule('___,___,SSS,q4'));
-		this.states['q1'] = q1;
+		for (let i = 0, len = states.length; i < len; i++) {
+			const stateData = states[i];
+			const state = new State(stateData.name, stateData.accepting);
+			const rules = stateData.rules || [];
 
-		const q2 = new State('q2', false);
-		q2.getRules().push(new Rule('00_,00_,SLS,q2'));
-		q2.getRules().push(new Rule('0__,0__,SRS,q3'));
-		this.states['q2'] = q2;
+			for (let j = 0; j < rules.length; j++) {
+				state.addRule(new Rule(rules[j]));
+			}
 
-		const q3 = new State('q3', false);
-		q3.getRules().push(new Rule('00_,000,SRR,q3'));
-		q3.getRules().push(new Rule('0__,___,RSS,q1'));
-		this.states['q3'] = q3;
+			this.states[stateData.name] = state;
+		}
 
-		const q4 = new State('q4', true);
-		this.states['q4'] = q4;
-
-		this.currentState = q0;
+		this.currentState = this.states[Object.keys(this.states)[0]];
 	}
 
 	getCurrentState() {

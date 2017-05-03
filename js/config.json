@@ -1,0 +1,45 @@
+{
+	"tapes": [
+		"000100",
+		"",
+		""
+	],
+	"states": [
+		{
+			"name": "q0",
+			"accepting": false,
+			"rules": [
+				"0__,_0_,RRS,q0",
+				"1__,___,RSS,q1"
+			]
+		},
+		{
+			"name": "q1",
+			"accepting": false,
+			"rules": [
+				"0__,0__,SLS,q2",
+				"___,___,SSS,q4"
+			]
+		},
+		{
+			"name": "q2",
+			"accepting": false,
+			"rules": [
+				"00_,00_,SLS,q2",
+				"0__,0__,SRS,q3"
+			]
+		},
+		{
+			"name": "q3",
+			"accepting": false,
+			"rules": [
+				"00_,000,SRR,q3",
+				"0__,___,RSS,q1"
+			]
+		},
+		{
+			"name": "q4",
+			"accepting": true
+		}
+	]
+}
